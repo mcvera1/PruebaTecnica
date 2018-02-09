@@ -15,8 +15,9 @@ public class Hilos implements Runnable {
 				+ Thread.currentThread().getName());
 		esperarXsegundos(empleadoDto.getTiempoLlamadaDTO().getDuraciónLlamada());
 		System.out.println(
-				"Terminando llamada:".concat(String.valueOf(empleadoDto.getTiempoLlamadaDTO().getCodigoLlamada()))
-						.concat(" ").concat(Thread.currentThread().getName()).concat(empleadoDto.getRol()));
+				"Terminando llamada:".concat(String.valueOf(empleadoDto.getTiempoLlamadaDTO().getCodigoLlamada()).concat(" Duración")
+						.concat(String.valueOf(empleadoDto.getTiempoLlamadaDTO().getDuraciónLlamada()).concat("seg"))
+						.concat(" ").concat(Thread.currentThread().getName()).concat(empleadoDto.getRol())));
 		// validar aca cuando llegan mas de 10 llamadas o cuando no hay
 		// empleados disponibles crear otra clase para manejar esos hilos y
 		// darles un tiempo de espera

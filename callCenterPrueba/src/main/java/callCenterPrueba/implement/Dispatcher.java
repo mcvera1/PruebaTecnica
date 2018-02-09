@@ -7,11 +7,13 @@ import callCenterPrueba.dto.TiempoLlamadaDTO;
 import callCenterPrueba.interfaz.DispatcherInterface;
 import callCenterPrueba.service.EstadoEmpleados;
 import callCenterPrueba.service.Hilos;
+import callCenterPrueba.service.LlamadasEspera;
 import callCenterPrueba.service.Tiempos;
 
 public class Dispatcher implements DispatcherInterface {
 	Vector totalEmpleados = new Vector();
 	Vector tiemposLlamadas = new Vector();
+	Vector tiemposLlamadasEspera = new Vector();
 	final String operador = "operador";
 	final String supervisor = "supervisor";
 	final String director = "director";
@@ -24,7 +26,12 @@ public class Dispatcher implements DispatcherInterface {
 			tiemposLlamadasDto = new TiempoLlamadaDTO();
 			tiemposLlamadasDto.setCodigoLlamada(i);
 			tiemposLlamadasDto.setDuraciónLlamada(tiempos.tiempoLlamada());
-			tiemposLlamadas.add(tiemposLlamadasDto);
+			if(i<=10){
+				tiemposLlamadas.add(tiemposLlamadasDto);				
+			}else if(i>10){
+				tiemposLlamadasEspera.addElement(tiemposLlamadasDto);
+			}
+			
 		}
 	}
 	
@@ -71,6 +78,15 @@ public class Dispatcher implements DispatcherInterface {
 				
 			}
 		}
+	}
+	
+	public void llamadasEspera(){
+		LlamadasEspera llamadasEspera = new LlamadasEspera();
+		Thread hilos = new Thread(llamadasEspera);
+		hilos.setName("espera");
+		hilos.start();
+		tiemposLlamadas = tiemposLlamadasEspera;
+		dispatcherCall();
 	}
 	
 }

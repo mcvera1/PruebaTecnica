@@ -8,5 +8,7 @@ public class App {
     	di.duracionLlamada(10);
     	di.cantidadEmpleado(10);
     	di.dispatcherCall();// valida cuando llegan 10 llamadas
+    	
+    	//di.llamadasEspera();
     }
 }
