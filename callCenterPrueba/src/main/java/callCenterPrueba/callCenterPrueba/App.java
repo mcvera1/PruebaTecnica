@@ -1,13 +1,12 @@
 package callCenterPrueba.callCenterPrueba;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import callCenterPrueba.implement.Dispatcher;
+
+public class App {
+    public static void main( String[] args ){
+    	Dispatcher di = new Dispatcher();
+    	di.duracionLlamada(10);
+    	di.cantidadEmpleado(10);
+    	di.dispatcherCall();
     }
 }
