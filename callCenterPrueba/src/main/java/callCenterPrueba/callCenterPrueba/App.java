@@ -7,6 +7,6 @@ public class App {
     	Dispatcher di = new Dispatcher();
     	di.duracionLlamada(10);
     	di.cantidadEmpleado(10);
-    	di.dispatcherCall();
+    	di.dispatcherCall();// valida cuando llegan 10 llamadas
     }
 }
