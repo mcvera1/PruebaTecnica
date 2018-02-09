@@ -40,21 +40,24 @@ public class Dispatcher implements DispatcherInterface {
 			
 			if(j<tiemposLlamadas.size()){
 				TiempoLlamadaDTO tiempo = (TiempoLlamadaDTO)tiemposLlamadas.get(j);
-				atiendeLlamada.setEstado(true);
-				atiendeLlamada.setTiempoLlamadaDTO(tiempo);
-				
-				//parte de los hilos
-				Hilos hilo = new Hilos(atiendeLlamada);
-				Thread hilos = new Thread(hilo);
-				hilos.setName(atiendeLlamada.getRol());
-				hilos.start();
-				//fin hilos
+				if(!atiendeLlamada.isEstado()){
+					atiendeLlamada.setEstado(true);
+					atiendeLlamada.setTiempoLlamadaDTO(tiempo);
+					
+					//parte de los hilos
+					Hilos hilo = new Hilos(atiendeLlamada);
+					Thread hilos = new Thread(hilo);
+					hilos.setName(atiendeLlamada.getRol());
+					hilos.start();
+					atiendeLlamada.setEstado(hilo.isOcupado());
+					//fin hilos					
+				}
 				
 				j++;
 			}
-		}
 			
-		
+			System.err.println(atiendeLlamada.getRol().concat(" ")+" "+(atiendeLlamada.isEstado()));
+		}
 	}
 	
 	
