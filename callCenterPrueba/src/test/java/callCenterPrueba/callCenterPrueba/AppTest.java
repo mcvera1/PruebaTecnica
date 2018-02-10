@@ -1,5 +1,6 @@
 package callCenterPrueba.callCenterPrueba;
 
+import callCenterPrueba.implement.Dispatcher;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -10,6 +11,29 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
+	/**
+	 * pruba unitaria para cuando ingresan 10 llamadas
+	 * asignadas a 10 empleados
+	 */
+	public void llamadasTest(){
+    	Dispatcher di = new Dispatcher();
+    	di.duracionLlamada(10);
+    	di.cantidadEmpleado(10);
+    	di.dispatcherCall();
+    	assertEquals(10, 10);
+	}
+	
+	/**
+	 * valida que las llamadas que entraron si fueron asignadas
+	 */
+	public void validarLlamadasAtendidas(){
+    	Dispatcher di = new Dispatcher();
+    	di.duracionLlamada(10);
+    	di.cantidadEmpleado(10);
+    	di.dispatcherCall();
+    	assertEquals(di.getTiemposLlamadas().size(), 0);
+	}
+	
     /**
      * Create the test case
      *
@@ -33,6 +57,7 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+    	llamadasTest();
+    	validarLlamadasAtendidas();
     }
 }
