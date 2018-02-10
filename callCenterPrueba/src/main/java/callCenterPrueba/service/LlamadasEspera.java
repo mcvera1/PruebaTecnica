@@ -2,6 +2,14 @@ package callCenterPrueba.service;
 
 public class LlamadasEspera{
 
+		/**
+		 * esperarXsegundos
+		 * @param segundos
+		 * metodo para las llamadas que quedan en espera
+		 * le da un total de 15 segundos para pasar la 
+		 * llamada a que sea asignada a alguien del 
+		 * personal
+		 */
 		public void esperarXsegundos(int segundos) {
 			try {
 				

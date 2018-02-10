@@ -10,6 +10,11 @@ public class Hilos implements Runnable {
 		this.empleadoDto = empleadoDto;
 	}
 
+	/**
+	 * run
+	 * metodo encargado de asignar cada llamada un hilo 
+	 * y validar cuanto demora 
+	 */
 	public void run() {
 		System.out.println("Llamada:" + empleadoDto.getTiempoLlamadaDTO().getCodigoLlamada() + " atendida por:"
 				+ Thread.currentThread().getName());
@@ -18,11 +23,14 @@ public class Hilos implements Runnable {
 				"Terminando llamada:".concat(String.valueOf(empleadoDto.getTiempoLlamadaDTO().getCodigoLlamada()).concat(" Duración")
 						.concat(String.valueOf(empleadoDto.getTiempoLlamadaDTO().getDuraciónLlamada()).concat("seg"))
 						.concat(" ").concat(Thread.currentThread().getName()).concat(empleadoDto.getRol())));
-		// validar aca cuando llegan mas de 10 llamadas o cuando no hay
-		// empleados disponibles crear otra clase para manejar esos hilos y
-		// darles un tiempo de espera
 	}
 
+	/**
+	 * esperarXsegundos
+	 * @param segundos
+	 * se le pasan los segundos para determinar cuando 
+	 * va a parar el hilo
+	 */
 	private void esperarXsegundos(int segundos) {
 		try {
 			Thread.sleep(segundos * 1000);
