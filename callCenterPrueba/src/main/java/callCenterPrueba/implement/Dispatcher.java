@@ -14,6 +14,7 @@ public class Dispatcher implements DispatcherInterface {
 	Vector totalEmpleados = new Vector();
 	Vector tiemposLlamadas = new Vector();
 	Vector tiemposLlamadasEspera = new Vector();
+	EstadoEmpleados estadoEmpleado = new EstadoEmpleados();
 	final String operador = "operador";
 	final String supervisor = "supervisor";
 	final String director = "director";
@@ -37,7 +38,6 @@ public class Dispatcher implements DispatcherInterface {
 	
 	public void cantidadEmpleado(int cantidadEmpleados){
 		EmpleadoDTO empleadoDto;
-		EstadoEmpleados estadoEmpleado = new EstadoEmpleados();
 		for(int i = 1; i <= cantidadEmpleados; i++ ){
 			empleadoDto = new EmpleadoDTO();
 			//empleadoDto.setEstado(estadoEmpleado.getBoolean());
@@ -73,20 +73,24 @@ public class Dispatcher implements DispatcherInterface {
 					//fin hilos	
 					
 					j++;
-				}
-				
-				
+				}	
 			}
 		}
 	}
 	
 	public void llamadasEspera(){
 		LlamadasEspera llamadasEspera = new LlamadasEspera();
-		Thread hilos = new Thread(llamadasEspera);
-		hilos.setName("espera");
-		hilos.start();
+		llamadasEspera.esperarXsegundos(0);
 		tiemposLlamadas = tiemposLlamadasEspera;
+		asesores();
 		dispatcherCall();
+	}
+	
+	public void asesores(){
+		for(int i = 0; i < totalEmpleados.size(); i++){
+			EmpleadoDTO atiendeLlamada = (EmpleadoDTO)totalEmpleados.get(i);
+			atiendeLlamada.setEstado(estadoEmpleado.getBoolean());
+		}
 	}
 	
 }

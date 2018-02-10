@@ -1,19 +1,17 @@
 package callCenterPrueba.service;
 
-public class LlamadasEspera implements Runnable{
+public class LlamadasEspera{
 
-		private void esperarXsegundos(int segundos) {
+		public void esperarXsegundos(int segundos) {
 			try {
-				Thread.sleep(segundos * 1000);
+				
+				while(segundos < 15){
+					segundos++;
+					Thread.sleep(1000);
+					System.err.println("Espere".concat(String.valueOf(segundos)).concat("seg para ser atendido"));
+				}
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
-		}
-
-		public void run() {
-			esperarXsegundos(2);
-			System.out.println(
-					"espere 20 segundos para ser atendido");
-			
 		}
 }
