@@ -12,7 +12,7 @@ public class Controller {
 	
 	public static void main(String arg[]){
 		DispatcherInterface dispatcher = new Dispatcher();
-		final int cantidadEmpleados=10;
+		final int cantidadEmpleados=6;
 		final int cantidadLlamadas = 10;
 		dispatcher.duracionLlamada(cantidadLlamadas);
 		dispatcher.cantidadEmpleado(cantidadEmpleados);
