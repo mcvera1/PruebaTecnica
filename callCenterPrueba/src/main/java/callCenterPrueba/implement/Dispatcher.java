@@ -37,6 +37,7 @@ public class Dispatcher implements DispatcherInterface {
 			tiemposLlamadasDto = new TiempoLlamadaDTO();
 			tiemposLlamadasDto.setCodigoLlamada(i);
 			tiemposLlamadasDto.setDuraciónLlamada(tiempos.tiempoLlamada());
+			tiemposLlamadasDto.setLlamadaAtendida(false);
 			if(i<=10){
 				tiemposLlamadas.add(tiemposLlamadasDto);				
 			}else if(i>10){
@@ -80,23 +81,27 @@ public class Dispatcher implements DispatcherInterface {
 	 * llamada atendida por el personal
 	 */
 	public void dispatcherCall() {
-		int j = 0;
+		
 		for(int i = 0; i < totalEmpleados.size(); i++){
 			EmpleadoDTO atiendeLlamada = (EmpleadoDTO)totalEmpleados.get(i);
-			
+			int j = 0;
 			if(j<tiemposLlamadas.size()){
 				TiempoLlamadaDTO tiempo = (TiempoLlamadaDTO)tiemposLlamadas.get(j);
 				if(!atiendeLlamada.isEstado()){
-					atiendeLlamada.setEstado(true);
-					atiendeLlamada.setTiempoLlamadaDTO(tiempo);
-					
-					//parte de los hilos
-					Hilos hilo = new Hilos(atiendeLlamada);
-					Thread hilos = new Thread(hilo);
-					hilos.setName(atiendeLlamada.getDescripcion());
-					hilos.start();
-					//fin hilos	
-					
+					if(!tiempo.isLlamadaAtendida()){
+						tiempo.setLlamadaAtendida(true);
+						atiendeLlamada.setEstado(true);
+						atiendeLlamada.setTiempoLlamadaDTO(tiempo);
+						
+						//parte de los hilos
+						Hilos hilo = new Hilos(atiendeLlamada);
+						Thread hilos = new Thread(hilo);
+						hilos.setName(atiendeLlamada.getDescripcion());
+						hilos.start();
+						//fin hilos	
+						
+						tiemposLlamadas.remove(j);
+					}
 					j++;
 				}	
 			}
@@ -107,7 +112,12 @@ public class Dispatcher implements DispatcherInterface {
 	 * llamadasEspera
 	 * valida si hay alguna llamada en espera aparte de las 10 que 
 	 * entraron y una vez terminen de atender las 10 primeras llamadas 
-	 * asigna la llamada a uno de los empleados
+	 * asigna la llamada a uno de los empleados se valida si el arreglo
+	 * que se creo para las llamadas en espera tiene registros se crea un 
+	 * hilo por 15 seg para que termine las primeras 10 llamadas una vez
+	 * hecho esto le asigna al arreglo de las llamadas principales las
+	 * llamadas faltantes y llama de nuevo el dispatcher para asignar
+	 * estàs llamadas
 	 */
 	public void llamadasEspera(){
 		LlamadasEspera llamadasEspera = new LlamadasEspera();
@@ -133,5 +143,35 @@ public class Dispatcher implements DispatcherInterface {
 			atiendeLlamada.setEstado(estadoEmpleado.getBoolean());
 		}
 	}
+	
+	/**
+	 * cantidadAsesoresDisponibles
+	 * metodo que se encarga de validar cuando llega una llamada
+	 * y los asesores estàn ocupados primero e valida en el metodo
+	 * dispatchercall que las llamadas hayan sido atendidas asignandoles
+	 * el valor de true una vez se haya asignado las llamadas a los empleados
+	 * de ese momento se valida cuantos llamadas quedan en espera se devuelve
+	 * el estado de los asesores a libre para que puedan atender las llamadas
+	 * y se llama de nuevo la clase dispatcher pero primero se ejecuta un hilo
+	 * por 15 seg para esperar a que terminen las llamadas anteriores
+	 */
+	public void cantidadAsesoresDisponibles(){
+		LlamadasEspera llamadasEspera = new LlamadasEspera();
+		for(int i = 0; i < totalEmpleados.size(); i++){
+			EmpleadoDTO atiendeLlamada = (EmpleadoDTO)totalEmpleados.get(i);
+			atiendeLlamada.setEstado(false);
+		}
+		if(tiemposLlamadas.size() > 0){
+			llamadasEspera.esperarXsegundos(0);
+			dispatcherCall();
+		}
+	}
+
+
+	public Vector getTiemposLlamadas() {
+		return tiemposLlamadas;
+	}
+	
+	
 	
 }

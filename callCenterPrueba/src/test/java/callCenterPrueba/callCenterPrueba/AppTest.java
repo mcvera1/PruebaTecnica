@@ -23,6 +23,17 @@ public class AppTest
     	assertEquals(10, 10);
 	}
 	
+	/**
+	 * valida que las llamadas que entraron si fueron asignadas
+	 */
+	public void validarLlamadasAtendidas(){
+    	Dispatcher di = new Dispatcher();
+    	di.duracionLlamada(10);
+    	di.cantidadEmpleado(10);
+    	di.dispatcherCall();
+    	assertEquals(di.getTiemposLlamadas().size(), 0);
+	}
+	
     /**
      * Create the test case
      *
@@ -47,5 +58,6 @@ public class AppTest
     public void testApp()
     {
     	llamadasTest();
+    	validarLlamadasAtendidas();
     }
 }
